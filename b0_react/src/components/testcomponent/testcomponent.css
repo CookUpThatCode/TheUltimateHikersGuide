@@ -1,0 +1,39 @@
+.viewer {
+   animation: slideIn ease 3s;
+   height: 10rem;
+   background: blue;
+   width: 16rem;
+   margin-left: 8rem;
+}
+
+.blackBox {
+   height: 10rem;
+   background: black;
+}
+
+.button {
+   height:10rem;
+   width: 10rem;
+   margin-top: 2rem;
+   background: red;
+}
+
+.green {
+   animation: slideIn ease 3s;
+   background: green;
+}
+
+.green:active {
+   transform: translateX(5rem);
+}
+
+@keyframes slideIn {
+   0% {
+      opacity: 0;
+      transform: translateX(4rem);
+   }
+   100% {
+      opacity: 1;
+      transform: translateX(0);
+   }
+}

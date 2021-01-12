@@ -1,0 +1,97 @@
+.trailInfo {
+   display: grid;
+   grid-template-areas: 
+      'a a a a a a a a a a a a'
+      'b b b b b b b b b b b b'
+      'c d d d d d g g g g g h'
+      'e f f f f f i i i i i j';
+   align-items: start;
+}
+
+.info-name {
+   /* border: 2px solid black; */
+   grid-area: a;
+   font-size: 2.5rem;
+   padding-left: .4rem;
+   font-weight: 500;
+}
+
+.info-prop {
+   /* border: 2px solid black; */
+   grid-area: b;
+   padding-left: .4rem;
+   font-size: 1.6rem;
+   margin-top: -.1rem;
+}
+
+.info-diff {
+   /* border: 2px solid black; */
+   grid-area: c;
+   font-size: 1.4rem;
+   font-weight: bold;
+   padding-left: .4rem;
+   margin-top: 7.2rem;
+}
+
+.info-diffVal {
+   /* border: 2px solid black; */
+   grid-area: d;
+   font-size: 1.8rem;
+   margin-top: 6.8rem;
+   margin-left: -1.4rem;
+}
+
+.info-enj {
+   /* border: 2px solid black; */
+   grid-area: e;
+   font-size: 1.4rem;
+   font-weight: bold;
+   padding-left: .4rem;
+   margin-top: .5rem;
+}
+
+.info-enjVal {
+   /* border: 2px solid black; */
+   grid-area: f;
+   font-size: 1.8rem;
+   margin-top: .1rem;
+   margin-left: -1.4rem;
+}
+
+.info-dist {
+   /* border: 2px solid black; */
+   grid-area: g;
+   font-size: 1.4rem;
+   font-weight: bold;
+   margin-top: 7.2rem;
+   text-align: right;
+   margin-right: -1.4rem;
+}
+
+.info-distVal {
+   text-align: right;
+   /* border: 2px solid black; */
+   grid-area: h;
+   font-size: 1.8rem;
+   margin-top: 6.8rem;
+   padding-right: .4rem;
+}
+
+.info-alt {
+   /* border: 2px solid black; */
+   grid-area: i;
+   font-size: 1.4rem;
+   font-weight: bold;
+   margin-top: .5rem;
+   text-align: right;
+   margin-right: -1.4rem;
+}
+
+.info-altVal {
+   text-align: right;
+   /* border: 2px solid black; */
+   grid-area: j;
+   font-size: 1.8rem;
+   margin-top: .1rem;
+   padding-right: .4rem;
+}

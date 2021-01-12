@@ -1,0 +1,40 @@
+.trailsView {
+   display: flex;
+   justify-content: space-evenly;
+   background: #555;
+   height: 20rem;
+   align-items: center;
+   /* width: 156rem; */
+   width: 84vw;
+   margin: 8rem auto;
+   border-radius: .6rem;
+   border: 2px solid black;
+}
+
+.trailItem {
+   background: #ddd;
+   border: 2px solid black;
+   display: inline-block;
+   height: 18rem;
+   flex: 13;
+   margin: auto .6rem;
+}
+
+.outerSection {
+   background: #ddd;
+   border-top: 2px solid black;
+   border-bottom: 2px solid black;
+   display: inline-block;
+   height: 18rem;
+   flex: 4;
+}
+
+.leftSection {
+   margin-right: .6rem;
+   border-right: 2px solid black;
+}
+
+.rightSection {
+   margin-left: .6rem;
+   border-left: 2px solid black;
+}
