@@ -71,13 +71,14 @@ class Query(graphene.ObjectType):
 
    def resolve_beginner_trails(self, info):
       return Trail.objects.annotate(avgDifficulty=Avg('hikes__difficulty')). \
-         annotate(avgEnjoyability=Avg('hikes__enjoyability')).order_by('avgDifficulty')[:5]
+         annotate(avgEnjoyability=Avg('hikes__enjoyability')).order_by('avgDifficulty')[:15]
 
    def resolve_all_equ_types(self, info):
       return EquipmentType.objects.all()
 
    def resolve_popular_trails(self, info):
-      return Trail.objects.annotate(numHikes=Count('hikes')).order_by('-numHikes')[:10]
+      return Trail.objects.annotate(numHikes=Count('hikes')).annotate(avgDifficulty=Avg('hikes__difficulty')). \
+         annotate(avgEnjoyability=Avg('hikes__enjoyability')).order_by('-numHikes')[:15]
 
    def resolve_trail_details(self, info, trailID):
       return Trail.objects.get(id=trailID)
@@ -263,6 +264,20 @@ class CreateEquipmentType(graphene.Mutation):
       equipmentType.save()
       return CreateEquipmentType(equipmentType=equipmentType)
 
+class CreateHike(graphene.Mutation):
+   hike = graphene.Field(HikeType)
+
+   class Arguments:
+      trailID = graphene.Int()
+      hikerID = graphene.Int()
+
+   def mutate(self, info, trailID, hikerID):
+      trail = Trail.objects.get(id=trailID)
+      hiker = Hiker.objects.get(id=hikerID)
+      hike = Hike(trail=trail, hiker=hiker)
+      hike.save()
+      return CreateHike(hike=hike)
+
 
 ################################ vvvvvvvvvvvvvv TESTING: POPULATE TABLES vvvvvvvvvvvvvvv ##############################################
 class PopTrail(graphene.Mutation):
@@ -294,27 +309,13 @@ class PopTrail(graphene.Mutation):
       trail.save()
       return CreateTrail(trail=trail)
 
-class PopHike(graphene.Mutation):
-   hike = graphene.Field(HikeType)
 
-   class Arguments:
-      trailID = graphene.Int()
-      hikerID = graphene.Int()
-
-   def mutate(self, info):
-      count = Hike.objects.all().count()
-      trailID = count % 5 + 1
-      hikerID = int(count / 5) + 1
-      trail = Trail.objects.get(id=trailID)
-      hiker = Hiker.objects.get(id=hikerID)
-      hike = Hike(trail=trail, hiker=hiker)
-      hike.save()
-      return CreateHike(hike=hike)
 ################################ ^^^^^^^^^^^^^^^ TESTING: POPULATE TABLES ^^^^^^^^^^^^^^^^ ##############################################
 
 
 class Mutation(graphene.ObjectType):
    create_trail = CreateTrail.Field()
+   create_hike = CreateHike.Field()
    check_in = CheckIn.Field()
    check_out = CheckOut.Field()
    leave_review = LeaveReview.Field()
@@ -328,4 +329,3 @@ class Mutation(graphene.ObjectType):
 
    ############ vvvvvvv TESTING: POPULATE TABLES vvvvvv ###########
    pop_trail = PopTrail.Field()
-   pop_hike = PopHike.Field()

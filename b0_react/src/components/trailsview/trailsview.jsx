@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { gql } from 'apollo-boost';
 
@@ -6,81 +6,111 @@ import TrailItem from '../trailItem/trailItem';
 
 import './trailsview.css';
 
-const TrailsView = () => (
-   <Query query={BEGINNER_TRAILS}>
-      {({data, loading, error}) => {
-         if (loading) return <div>Loading</div>
-         if (error) return <div>Error</div>
 
-         console.log(data);
 
-         return (
+class TrailsView extends Component {
+   state = {
+      startIdx: 0,
+      list: null
+   }
+
+   rightHandler = () => {
+      if (this.state.startIdx !== 10) {
+         this.setState((prevState, prevProps) => {
+            return {
+               startIdx: prevState.startIdx + 5
+            }
+         })
+      }
+   }
+
+   leftHandler = () => {
+      if (this.state.startIdx !== 0) {
+         this.setState((prevState, prevProps) => {
+            return {
+               startIdx: prevState.startIdx - 5
+            }
+         })
+      }
+   }
+
+   render() {
+      let query = null;
+      if (this.props.list === "beginner") {
+         query = BEGINNER_TRAILS;
+      }
+      else if (this.props.list === "popular") {
+         query = POPULAR_TRAILS;
+      }
+      let leftArrow = "outerSection";
+      let rightArrow = "outerSection";
+      if (this.state.startIdx === 0) leftArrow += " grayedOut";
+      if (this.state.startIdx === 10) rightArrow += " grayedOut";
+      let list = null;
+      if (!this.state.list) {
+         list = (
+            <Query query={query}>
+               {({data, loading, error}) => {
+                  if (loading) return <div></div>
+                  if (error) return <div>Error</div>
+                  if (this.props.list === "beginner") {
+                     this.setState({list: data.beginnerTrails});
+                  }
+                  else if (this.props.list === "popular") {
+                     this.setState({list: data.popularTrails});
+                  }
+
+                  return <div></div>
+               }}
+            </Query>
+         )
+      }
+      else {
+         let trailsSlice = this.state.list.slice(this.state.startIdx, this.state.startIdx+5)
+         let trailsList = trailsSlice.map((trail, idx) => {
+            return <TrailItem
+               key={idx}
+               trailID={trail.id}
+               trailName={trail.name}
+               trailProp={trail.prop}
+               trailDistance={trail.distance}
+               trailAltChange={trail.altitudeChange}
+               trailAvgDiff={trail.avgDifficulty}
+               trailAvgEnj={trail.avgEnjoyability}
+            />
+         })
+         list = (
             <div className="trailsView">
-               {/* <div className="outerSection leftSection"></div> */}
-               <TrailItem
-                  trailID={data.beginnerTrails[0].id}
-                  trailName={data.beginnerTrails[0].name}
-                  trailProp={data.beginnerTrails[0].prop}
-                  trailDistance={data.beginnerTrails[0].distance}
-                  trailAltChange={data.beginnerTrails[0].altitudeChange}
-                  trailAvgDiff={data.beginnerTrails[0].avgDifficulty}
-                  trailAvgEnj={data.beginnerTrails[0].avgEnjoyability}
-               >Trail</TrailItem>
-               <TrailItem
-                  trailID={data.beginnerTrails[0].id}
-                  trailName={data.beginnerTrails[0].name}
-                  trailProp={data.beginnerTrails[0].prop}
-                  trailDistance={data.beginnerTrails[0].distance}
-                  trailAltChange={data.beginnerTrails[0].altitudeChange}
-                  trailAvgDiff={data.beginnerTrails[0].avgDifficulty}
-                  trailAvgEnj={data.beginnerTrails[0].avgEnjoyability}
-               >Trail</TrailItem>
-               <TrailItem
-                  trailID={data.beginnerTrails[0].id}
-                  trailName={data.beginnerTrails[0].name}
-                  trailProp={data.beginnerTrails[0].prop}
-                  trailDistance={data.beginnerTrails[0].distance}
-                  trailAltChange={data.beginnerTrails[0].altitudeChange}
-                  trailAvgDiff={data.beginnerTrails[0].avgDifficulty}
-                  trailAvgEnj={data.beginnerTrails[0].avgEnjoyability}
-               >Trail</TrailItem>
-               <TrailItem
-                  trailID={data.beginnerTrails[0].id}
-                  trailName={data.beginnerTrails[0].name}
-                  trailProp={data.beginnerTrails[0].prop}
-                  trailDistance={data.beginnerTrails[0].distance}
-                  trailAltChange={data.beginnerTrails[0].altitudeChange}
-                  trailAvgDiff={data.beginnerTrails[0].avgDifficulty}
-                  trailAvgEnj={data.beginnerTrails[0].avgEnjoyability}
-               >Trail</TrailItem>
-               <TrailItem
-                  trailID={data.beginnerTrails[0].id}
-                  trailName={data.beginnerTrails[0].name}
-                  trailProp={data.beginnerTrails[0].prop}
-                  trailDistance={data.beginnerTrails[0].distance}
-                  trailAltChange={data.beginnerTrails[0].altitudeChange}
-                  trailAvgDiff={data.beginnerTrails[0].avgDifficulty}
-                  trailAvgEnj={data.beginnerTrails[0].avgEnjoyability}
-               >Trail</TrailItem>
-               <TrailItem
-                  trailID={data.beginnerTrails[0].id}
-                  trailName={data.beginnerTrails[0].name}
-                  trailProp={data.beginnerTrails[0].prop}
-                  trailDistance={data.beginnerTrails[0].distance}
-                  trailAltChange={data.beginnerTrails[0].altitudeChange}
-                  trailAvgDiff={data.beginnerTrails[0].avgDifficulty}
-                  trailAvgEnj={data.beginnerTrails[0].avgEnjoyability}
-               >Trail</TrailItem>
-               {/* <div className="outerSection rightSection"></div> */}
+               <div className={leftArrow} onClick={this.leftHandler}>&lt;</div>
+               {trailsList}
+               <div className={rightArrow} onClick={this.rightHandler}>&gt;</div>
             </div>
          )
-      }}
-   </Query>
-)
+      }
+      return (
+         list
+      )
+   }
+}
+
 
 const BEGINNER_TRAILS = gql`
    {
       beginnerTrails {
+         id 
+         name 
+         prop 
+         distance 
+         altitudeChange
+         avgDifficulty
+         avgEnjoyability
+      }
+   }
+`
+
+const POPULAR_TRAILS = gql`
+   {
+      popularTrails {
          id 
          name 
          prop 

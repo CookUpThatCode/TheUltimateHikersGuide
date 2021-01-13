@@ -95,3 +95,8 @@
    margin-top: .1rem;
    padding-right: .4rem;
 }
+
+.bgImage {
+   z-index: 5;
+}
+

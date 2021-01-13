@@ -1,40 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import './trailItem.css';
 
-const TrailItem = (props) => (
-   <div className="trailItem">
-      <div className="trailInfo">
-         <div className="info-name">{props.trailName}</div>
-         <div className="info-prop">{props.trailProp}</div>
-         <div className="info-diff">Diff: </div>
-         <div className="info-diffVal">{props.trailAvgDiff.toFixed(1)}</div>
-         <div className="info-enj">Enjy: </div>
-         <div className="info-enjVal">{props.trailAvgEnj.toFixed(1)}</div>
-         <div className="info-dist">Dist: </div>
-         <div className="info-distVal">{props.trailDistance}</div>
-         <div className="info-alt">Alt&#916;: </div>
-         <div className="info-altVal">{props.trailAltChange}</div>
+import myImg from '../../images/pexels-photo-1578750.jpeg';
 
-
-
-         {/* trailID={data.beginnerTrails[0].id}
-                  trailName={data.beginnerTrails[0].name}
-                  trailProp={data.beginnerTrails[0].prop}
-                  trailDistance={data.beginnerTrails[0].distance}
-                  trailAltChange={data.beginnerTrails[0].altitudeChange}
-                  trailAvgDiff={data.beginnerTrails[0].avgDifficulty}
-                  trailAvgEnj={data.beginnerTrails[0].avgEnjoyability}
- */}
-
-
-
-
-
-         {/* <div className="info-prop">{props.trailAvgDiff.toFixed(1)}</div>
-         <div className="info-3"></div> */}
-      </div>
-   </div>
-)
+class TrailItem extends Component {
+   render() {
+      let mypath = 'http://localhost:3000/src/images/pexels-photo-1578750.jpeg';
+      let imageUrl = 'https://i.ibb.co/cvpntL1/hats.png';
+      return (
+         <div className="trailItem" style={{backgroundImage: `url(${imageUrl})`}}>
+            <div className="trailInfo">
+               <div className="info-name">{this.props.trailName}</div>
+               <div className="info-prop">{this.props.trailProp}</div>
+               <div className="info-diff">Diff: </div>
+               <div className="info-diffVal">{this.props.trailAvgDiff.toFixed(1)}</div>
+               <div className="info-enj">Enjy: </div>
+               <div className="info-enjVal">{this.props.trailAvgEnj.toFixed(1)}</div>
+               <div className="info-dist">Dist: </div>
+               <div className="info-distVal">{this.props.trailDistance}</div>
+               <div className="info-alt">Alt&#916;: </div>
+               <div className="info-altVal">{this.props.trailAltChange}</div>
+            </div>
+            {/* <img src={myImg} className="bgImage" /> */}
+         </div>
+      )
+   }
+}
 
 export default TrailItem;
