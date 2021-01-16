@@ -8,25 +8,6 @@ import TrailDetail from './pages/traildetail/traildetail';
 import TestPage from './pages/testpage/testpage';
 
 const App = () => (
-   // <div>
-   //    Hello world
-   // </div>
-   // <Query query={CONVO_THREADS_QUERY}>
-   //    {({data, loading, error}) => {
-   //       if (loading) return <div>Loading</div>
-   //       if (error) {
-   //          console.log(error);
-   //          return <div>Error</div>
-   //       }
-
-   //       console.log(data)
-         
-   //       return (
-   //          <div>hello again: {data.conversationThreads.length}</div>
-   //       )
-   //    }}
-   // </Query>
-
    <div>
       <BrowserRouter>
          <Switch>

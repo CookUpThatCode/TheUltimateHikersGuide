@@ -1,0 +1,50 @@
+.trailsListContainer {
+   display: flex;
+   margin: 0 5vw;
+}
+
+.trailsListSpace {
+   flex: 3;
+   /* border: 1px solid red; */
+}
+
+.trailsList {
+   flex: 1;
+   position: relative;
+   /* height: 30.4rem; */
+   /* border: 1px solid black; */
+}
+
+.downArrow, .upArrow {
+   position: absolute;
+   right: 0;
+   z-index: 3;
+   width: 3rem;
+   height: 3.8rem;
+   background: rgb(198, 204, 214);
+   font-size: 3rem;
+   color: black;
+   text-align: center;
+}
+
+.upArrow {
+   top: 0;
+}
+
+.downArrow {
+   bottom: 0;
+}
+
+.downArrow:hover, .upArrow:hover {
+   background: rgb(170, 177, 187);
+   font-weight: bold;
+   cursor: pointer;
+}
+
+.listBox {
+   position: absolute;
+   width: 100%;
+   background: rgb(226, 228, 236);
+   z-index: 2;
+   border: 1px solid black;
+}

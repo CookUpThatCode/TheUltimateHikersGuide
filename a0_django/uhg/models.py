@@ -9,8 +9,9 @@ class Trail(models.Model):
    description = models.CharField(max_length=50)
    isOpen = models.BooleanField()
    altitudeChange = models.IntegerField()
-   distance = models.IntegerField()
+   distance = models.FloatField()
    fee = models.FloatField()
+   image = models.ImageField(upload_to='uhg/images/', null=True)
 
    class Meta:
       constraints = [

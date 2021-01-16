@@ -6,8 +6,6 @@ import TrailItem from '../trailItem/trailItem';
 
 import './trailsview.css';
 
-
-
 class TrailsView extends Component {
    state = {
       startIdx: 0,
@@ -77,6 +75,7 @@ class TrailsView extends Component {
                trailAltChange={trail.altitudeChange}
                trailAvgDiff={trail.avgDifficulty}
                trailAvgEnj={trail.avgEnjoyability}
+               imageUrl={trail.image}
             />
          })
          list = (
@@ -104,6 +103,7 @@ const BEGINNER_TRAILS = gql`
          altitudeChange
          avgDifficulty
          avgEnjoyability
+         image
       }
    }
 `
@@ -118,6 +118,7 @@ const POPULAR_TRAILS = gql`
          altitudeChange
          avgDifficulty
          avgEnjoyability
+         image
       }
    }
 `

@@ -1,0 +1,52 @@
+.searchBarContainer {
+   margin: 0 5vw;
+   display: flex;
+   margin-top: 2.2rem;
+}
+
+.searchSpace {
+   flex: 3;
+}
+
+.searchBar {
+   flex: 1;
+   height: 3.8rem;
+   display: flex;
+}
+
+.clear, .submitSearch {
+   flex: 1;
+   border: none;
+   background: rgb(64, 152, 224);
+   font-size: 3.2rem;
+   text-align: center;
+}
+
+.searchField {
+   flex: 6;
+   border: none;
+   background: rgb(155, 200, 236);
+   font-size: 1.8rem;
+   padding-left: .6rem;
+}
+
+.clear:hover, .submitSearch:hover {
+   background: rgb(46, 129, 197);
+   cursor: pointer;
+}
+
+.searchField:focus {
+   outline: none;
+   background: rgb(135, 181, 219);
+}
+
+.submitSearch:focus, .clear:focus {
+   outline: none;
+}
+
+.searchIcon {
+   width: 100%;
+   height: 100%;
+   object-fit: contain;
+}
+

@@ -51,7 +51,7 @@ class BuddyType(DjangoObjectType):
       model = Buddy
 
 class Query(graphene.ObjectType):
-   trails = graphene.List(TrailType)
+   trails = graphene.List(TrailType, search=graphene.String())
    hikes = graphene.List(HikeType)
    beginner_trails = graphene.List(TrailType)
    all_equ_types = graphene.List(EquipmentTypeType)
@@ -63,8 +63,17 @@ class Query(graphene.ObjectType):
    conversation_threads = graphene.List(MessageType, hikerID=graphene.Int(required=True))
    thread_detail = graphene.List(MessageType, hikerID=graphene.Int(required=True), recipientID=graphene.Int(required=True))
 
-   def resolve_trails(self, info):
-      return Trail.objects.all() 
+   def resolve_trails(self, info, search=None):
+      if search:
+         filter = (
+            Q(name__icontains=search) |
+            Q(prop__icontains=search) |
+            Q(city__icontains=search) | 
+            Q(state__icontains=search)
+         )
+         return Trail.objects.filter(filter)
+      else:
+         return Trail.objects.all() 
 
    def resolve_hikes(self, info):
       return Hike.objects.all()
@@ -264,21 +273,6 @@ class CreateEquipmentType(graphene.Mutation):
       equipmentType.save()
       return CreateEquipmentType(equipmentType=equipmentType)
 
-class CreateHike(graphene.Mutation):
-   hike = graphene.Field(HikeType)
-
-   class Arguments:
-      trailID = graphene.Int()
-      hikerID = graphene.Int()
-
-   def mutate(self, info, trailID, hikerID):
-      trail = Trail.objects.get(id=trailID)
-      hiker = Hiker.objects.get(id=hikerID)
-      hike = Hike(trail=trail, hiker=hiker)
-      hike.save()
-      return CreateHike(hike=hike)
-
-
 ################################ vvvvvvvvvvvvvv TESTING: POPULATE TABLES vvvvvvvvvvvvvvv ##############################################
 class PopTrail(graphene.Mutation):
    trail = graphene.Field(TrailType) 
@@ -315,7 +309,6 @@ class PopTrail(graphene.Mutation):
 
 class Mutation(graphene.ObjectType):
    create_trail = CreateTrail.Field()
-   create_hike = CreateHike.Field()
    check_in = CheckIn.Field()
    check_out = CheckOut.Field()
    leave_review = LeaveReview.Field()

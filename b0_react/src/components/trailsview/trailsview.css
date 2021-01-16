@@ -6,20 +6,26 @@
    align-items: center;
    /* width: 156rem; */
    width: 90vw;
-   margin: 8rem auto;
+   margin: 0 auto;
    border-radius: .6rem;
    border: 2px solid black;
 }
 
 .trailItem {
    /* background: #ddd; */
-   /* background: url('../../images/pexels-photo-1578750.jpeg'); */
    border: 2px solid black;
    display: inline-block;
    height: 18rem;
    flex: 13;
    margin: auto .6rem;
-   color: #ebebeb;
+   color: black;
+   font-weight: bold;
+}
+
+.trailItem:hover {
+   transform: scale(1.05);
+   transition: transform .3s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+   cursor: pointer;
 }
 
 .outerSection {
@@ -27,9 +33,19 @@
    flex: 2;
    text-align: center;
    font-size: 6.5rem;
-   color: rgb(240, 205, 10);
+   color: rgb(255, 217, 0);
+}
+
+.outerSection:hover {
+   cursor: pointer;
+   font-weight: bold;
 }
 
 .grayedOut {
    color: rgb(209, 187, 125);
+}
+
+.grayedOut:hover {
+   font-weight: 100;
+   cursor: default;
 }
