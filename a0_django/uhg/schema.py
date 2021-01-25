@@ -43,6 +43,7 @@ class TrailType(DjangoObjectType):
 
 class HikeType(DjangoObjectType):
    totalHikerDistance = graphene.Int()
+   date = graphene.Date()
    class Meta:
       model = Hike 
 
@@ -56,12 +57,13 @@ class Query(graphene.ObjectType):
    beginner_trails = graphene.List(TrailType)
    all_equ_types = graphene.List(EquipmentTypeType)
    popular_trails = graphene.List(TrailType)
-   trail_details = graphene.Field(TrailType, trailID=graphene.Int(required=True))
+   trail_details = graphene.List(TrailType, trailID=graphene.Int(required=True))
    expert_reviews = graphene.List(HikeType, trailID=graphene.Int(required=True))
    recent_hikers = graphene.List(HikeType, trailID=graphene.Int(required=True))
    hike_detail = graphene.Field(HikeType, hikeID=graphene.Int(required=True))
    conversation_threads = graphene.List(MessageType, hikerID=graphene.Int(required=True))
    thread_detail = graphene.List(MessageType, hikerID=graphene.Int(required=True), recipientID=graphene.Int(required=True))
+   hiker_most_recent_hike_on_trail = graphene.List(HikeType, trailID=graphene.Int(required=True), hikerID=graphene.Int())
 
    def resolve_trails(self, info, search=None):
       if search:
@@ -90,11 +92,13 @@ class Query(graphene.ObjectType):
          annotate(avgEnjoyability=Avg('hikes__enjoyability')).order_by('-numHikes')[:15]
 
    def resolve_trail_details(self, info, trailID):
-      return Trail.objects.get(id=trailID)
+      # return Trail.objects.get(id=trailID)
+      return Trail.objects.filter(id=trailID).annotate(numHikes=Count('hikes')).annotate(avgDifficulty=Avg('hikes__difficulty')). \
+         annotate(avgEnjoyability=Avg('hikes__enjoyability'))
 
    def resolve_expert_reviews(self, info, trailID):
       return Hike.objects.filter(trail__id=trailID).exclude(review=None).annotate(totalHikerDistance=Sum('hiker__hikes__trail__distance')). \
-         order_by('-totalHikerDistance')
+         order_by('-totalHikerDistance')[:5].annotate(date=F('checkInDate__date'))
 
    def resolve_recent_hikers(self, info, trailID):
       return Hike.objects.filter(trail__id=trailID).annotate(latestDateForHiker=Max('hiker__hikes__checkInDate', \
@@ -115,6 +119,19 @@ class Query(graphene.ObjectType):
    def resolve_thread_detail(self, info, hikerID, recipientID):
       return Message.objects.filter((Q(hikerID__id=hikerID) & Q(recipientID__id=recipientID)) | \
          (Q(hikerID__id=recipientID) & Q(recipientID__id=hikerID))).order_by('-timeSent')
+
+   def resolve_hiker_most_recent_hike_on_trail(self, info, trailID, hikerID=None):
+      trail = Trail.objects.get(id=trailID)
+      if hikerID:
+         hiker = Hike.objects.get(id=hikerID)
+      else:
+         user = info.context.user 
+         if user.is_anonymous:
+            raise Exception("Not logged in")
+         hiker = Hiker.objects.get(user=user)
+      hike = Hike.objects.filter(hiker=hiker, trail=trail).order_by('-checkInDate')[:1].annotate(date=F('checkInDate__date'))
+      return hike
+
 
 class CreateTrail(graphene.Mutation):
    trail = graphene.Field(TrailType) 
@@ -137,17 +154,33 @@ class CreateTrail(graphene.Mutation):
 
 class CheckIn(graphene.Mutation):
    hike = graphene.Field(HikeType)
+   date = graphene.Date()
 
    class Arguments:
       trailID = graphene.Int(required=True)
-      hikerID = graphene.Int(required=True)
+      hikerID = graphene.Int()
 
-   def mutate(self, info, trailID, hikerID):
+   # def mutate(self, info, trailID, hikerID):
+   #    trail = Trail.objects.get(id=trailID)
+   #    hiker = Hiker.objects.get(id=hikerID)
+   #    hike = Hike(trail=trail, hiker=hiker)
+   #    hike.save()
+   #    return CheckIn(hike=hike)
+
+   def mutate(self, info, trailID, **kwargs):
       trail = Trail.objects.get(id=trailID)
-      hiker = Hiker.objects.get(id=hikerID)
+      hikerID = kwargs.get('hikerID', None)
+      if hikerID:
+         hiker = Hiker.objects.get(id=hikerID)
+      else:
+         user = info.context.user 
+         if user.is_anonymous:
+            raise Exception("Not logged in.")
+         hiker = Hiker.objects.get(user=user)
       hike = Hike(trail=trail, hiker=hiker)
       hike.save()
-      return CheckIn(hike=hike)
+      return CheckIn(hike=hike, date=hike.checkInDate.date())
+
 
 class LeaveReview(graphene.Mutation):
    hike = graphene.Field(HikeType)
@@ -170,10 +203,21 @@ class CheckOut(graphene.Mutation):
    hike = graphene.Field(HikeType)
 
    class Arguments:
-      hikeID = graphene.Int(required=True)
+      hikeID = graphene.Int()
+      trailID = graphene.Int(required=True)
 
-   def mutate(self, info, hikeID):
-      hike = Hike.objects.get(id=hikeID)
+   def mutate(self, info, trailID, **kwargs):
+      hikeID = kwargs.get('hikeID', None)
+      hike = None
+      if hikeID:
+         hike = Hike.objects.get(id=hikeID)
+      else: 
+         user = info.context.user
+         if user.is_anonymous:
+            raise Exception('Not logged in')
+         hiker = Hiker.objects.get(user=user)
+         trail = Trail.objects.get(id=trailID)
+         hike = Hike.objects.filter(hiker=hiker, trail=trail).order_by('-checkInDate')[0]
       hike.checkOutDate = datetime.now()
       hike.save()
       return CheckOut(hike=hike)

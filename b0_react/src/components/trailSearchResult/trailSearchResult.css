@@ -1,16 +1,21 @@
 
 .result {
-   background: #f4f8f7;
-   border: 1px #ccc solid;
+   /* display: absolute; */
+   /* background: #f4f8f7; */
+   background: #d8e0f1;
+   /* border: 1px #ccc solid; */
+   /* border: 1px solid rgb(198, 204, 214); */
+   border: 1px solid rgb(198, 200, 214);
    height: 3.8rem;
    /* margin-right: 5vw; */
    border-radius: .6rem;
    padding-left: .4rem;
+   /* z-index: 12; */
 }
 
 .result:hover {
    cursor: pointer;
-   background: rgb(222, 229, 238);
+   background: rgb(192, 194, 206);
    border: 1px #aaa solid;
 }
 

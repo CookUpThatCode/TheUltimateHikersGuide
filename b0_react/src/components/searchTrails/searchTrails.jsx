@@ -36,7 +36,7 @@ const SearchTrails = (props) => {
                   <input type="text" className="searchField" placeholder="Search for trails" value={search}
                      onChange={event => setSearch(event.target.value)} ref={inputEl} 
                   />
-                  <button type="submit" className="submitSearch"><img src={searchIcon} class="searchIcon" /></button>
+                  <button type="submit" className="submitSearch"><img src={searchIcon} className="searchIcon" /></button>
                </form>
             </div>
          )}
@@ -52,6 +52,7 @@ const SEARCH_TRAILS_QUERY = gql`
          prop 
          city 
          state
+         id
       }
    }
 `

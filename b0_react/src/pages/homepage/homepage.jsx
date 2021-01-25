@@ -28,15 +28,19 @@ const HomePage = () => {
    }
 
    return (
-      <div className='homepage'>
+      <div className="homePage">
          <Header currentPg="home" />
+         <div className="uhgTitle">
+            <div className="titleLn1"><div className="smallThe">THE</div>&nbsp;ULTIMATE HIKER'S</div>
+            <div className="titleLn2">GUIDE</div>
+         </div>
          <SearchTrails setSearchResults={setSearchResults} setResultIdx={setResultIdx} />
          {searchResults.length > 0 && <TrailSearchResultsList results={searchResults.slice(resultIdx, resultIdx+8)} 
             nextResults={nextResultsHandler} prevResults={prevResultsHandler} resultIdx={resultIdx} numResults={searchResults.length} 
          />}
          <div className="viewerLabels">Beginner Trails</div>
          <TrailsView list="beginner" />
-         <div className="viewerLabels">Popular Trails</div>
+         <div className="viewerLabels" id="viewer2">Popular Trails</div>
          <TrailsView list="popular" />
       </div>
    )

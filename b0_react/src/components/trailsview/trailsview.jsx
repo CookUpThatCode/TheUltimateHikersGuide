@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import { Link } from 'react-router-dom';
 
 import TrailItem from '../trailItem/trailItem';
 
@@ -66,8 +67,7 @@ class TrailsView extends Component {
       else {
          let trailsSlice = this.state.list.slice(this.state.startIdx, this.state.startIdx+5)
          let trailsList = trailsSlice.map((trail, idx) => {
-            return <TrailItem
-               key={idx}
+            return <Link className="trailLinkWrapper" to={`/traildetail/${trail.id}`} key={idx}><TrailItem
                trailID={trail.id}
                trailName={trail.name}
                trailProp={trail.prop}
@@ -76,7 +76,7 @@ class TrailsView extends Component {
                trailAvgDiff={trail.avgDifficulty}
                trailAvgEnj={trail.avgEnjoyability}
                imageUrl={trail.image}
-            />
+            /></Link>
          })
          list = (
             <div className="trailsView">

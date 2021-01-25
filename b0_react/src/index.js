@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 
 import { ApolloProvider, Query } from 'react-apollo';
 import ApolloClient, { gql } from 'apollo-boost';
+// import { Provider } from 'react-redux';
+// import store from './redux/store';
 
 const client = new ApolloClient({
    uri: 'http://localhost:8000/graphql/',
@@ -27,10 +29,13 @@ const client = new ApolloClient({
    },
 })
 
+
 ReactDOM.render(
    // <React.StrictMode>
    <ApolloProvider client={client}>
-      <App />
+      {/* <Provider store={store}> */}
+         <App />
+      {/* </Provider> */}
    </ApolloProvider>,
    // </React.StrictMode>,
    document.getElementById('root')

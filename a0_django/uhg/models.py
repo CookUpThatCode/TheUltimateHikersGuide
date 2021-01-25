@@ -106,6 +106,3 @@ class Hiker(models.Model):
    state = models.CharField(max_length=50, null=True) 
    skillLevel = models.IntegerField() 
    bio = models.CharField(max_length=500, null=True)
-
-
-

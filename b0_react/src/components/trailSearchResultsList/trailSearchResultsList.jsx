@@ -11,6 +11,7 @@ const TrailSearchResultsList = (props) => {
          property={trail.prop}
          city={trail.city}
          state={trail.state}
+         trailID={trail.id}
       />
    })
 

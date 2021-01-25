@@ -5,18 +5,20 @@ import  { gql } from 'apollo-boost';
 
 import HomePage from './pages/homepage/homepage';
 import TrailDetail from './pages/traildetail/traildetail';
+import Authorization from './pages/authorization/authorization';
+import Profile from './pages/profile/profile';
 import TestPage from './pages/testpage/testpage';
 
-const App = () => (
-   <div>
-      <BrowserRouter>
-         <Switch>
-            <Route exact path='/' component={HomePage} />
-            <Route exact path='/traildetail' component={TrailDetail} />
-            <Route exact path='/test' component={TestPage} />
-         </Switch>
-      </BrowserRouter>
-   </div>
+const App = (props) => (
+   <BrowserRouter>
+      <Switch>
+         <Route exact path='/' component={HomePage} />
+         <Route exact path='/traildetail/:id' component={TrailDetail} />
+         <Route exact path='/auth' component={Authorization} />
+         <Route exact path='/profile' component={Profile} />
+         <Route exact path='/test' component={TestPage} />
+      </Switch>
+   </BrowserRouter>
 );
 
 

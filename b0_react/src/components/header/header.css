@@ -1,6 +1,10 @@
 .header {
    display: flex;
-   background: #5b7891;
+   /* background: #5b7891; */
+   /* background: #5b7191; */
+   background: #4f5b6e;
+   /* background: rgb(87, 74, 66); */
+   /* background: rgb(87, 74, 66); */
    align-items: center;
    height: 7.6rem;
    font-size: 2.2rem;
@@ -8,8 +12,11 @@
 }
 
 .rightItems, .leftItem {
-   font-weight: 100;
-   color: #a83e00;
+   font-weight: bold;
+   color: rgb(73, 62, 55);
+   /* color: rgb(87, 74, 66); */
+   /* color: #a83e00; */
+
 }
 
 .rightItems {
@@ -31,7 +38,8 @@
 
 .rightItems:hover, .leftItem:hover {
    font-weight: bold;
-   color: #873600;
+   /* color: #873600; */
+   color: #412210;
    cursor: pointer;
 }
 
@@ -58,6 +66,7 @@
    /* border-bottom: 1px solid red; */
    height: 100%;
    /* padding-left: 1.4rem; */
-   color: #873600;
+   color: #412210;
+   /* color: #873600; */
    font-weight: bold;
 }

@@ -9,6 +9,7 @@
 }
 
 .searchBar {
+   z-index: 5;
    flex: 1;
    height: 3.8rem;
    display: flex;

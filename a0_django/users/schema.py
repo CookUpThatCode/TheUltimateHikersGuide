@@ -16,12 +16,20 @@ class HikerType(DjangoObjectType):
 
 class Query(graphene.ObjectType):
    hikers = graphene.List(HikerType)
-   hiker = graphene.Field(HikerType, hikerID=graphene.Int(required=True))
+   hiker = graphene.Field(HikerType, hikerID=graphene.Int())
    age = graphene.Int(hikerID=graphene.Int(required=True))
    recent_hikes = graphene.List(HikeType, hikerID=graphene.Int(required=True))
+   me = graphene.Field(HikerType)
 
-   def resolve_hiker(self, info, hikerID):
-      return Hiker.objects.get(id=hikerID)
+   def resolve_hiker(self, info, hikerID=None):
+      if hikerID:
+         return Hiker.objects.get(id=hikerID)
+      else:
+         user = info.context.user 
+         if user.is_anonymous:
+            raise Exception("Not authorized to see this.")
+         hiker = Hiker.objects.get(user=user)
+         return Hiker.objects.get(id=hiker.id)
 
    def resolve_age(self, info, hikerID):
       hiker = Hiker.objects.get(id=hikerID)
@@ -36,6 +44,13 @@ class Query(graphene.ObjectType):
 
    def resolve_recent_hikes(self, info, hikerID):
       return Hike.objects.filter(hiker__id=hikerID).order_by('-checkInDate')
+
+   def resolve_me(self, info):
+      user = info.context.user
+      if user.is_anonymous:
+         raise Exception("Not logged in.")
+      hiker = Hiker.objects.get(user=user)
+      return hiker
 
 class CreateHiker(graphene.Mutation):
    hiker = graphene.Field(HikerType)

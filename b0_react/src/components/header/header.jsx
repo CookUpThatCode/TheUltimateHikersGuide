@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './header.css';
 
@@ -14,9 +15,11 @@ const Header = (props) => {
    else if (props.currentPg == "loginReg") loginReg += "currentPg";
    else if (props.currentPg == "profile") profile += "currentPg";
 
+   let mypath = "/traildetail/3";
+
    return (
       <div className="header">
-         <div className="leftItem"><div className="homeBox"><div className={home}>Home</div></div></div>
+         <div className="leftItem"><div className="homeBox"><Link to="/"><div className={home}>Home</div></Link></div></div>
          <div className="rightItems"><div className="itemBox"><div className={about}>About</div></div></div>
          <div className="rightItems"><div className="itemBox"><div className={contact}>Contact</div></div></div>
          <div className="rightItems"><div className="loginRegBox"><div className={loginReg}>Login / Register</div></div></div>

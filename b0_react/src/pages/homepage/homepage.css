@@ -5,7 +5,39 @@
    font-size: 3rem;
 }
 
+#viewer2 {
+   margin-top: 6.5rem;
+}
+
 body {
    background: #f7f5f5;
 }
 
+.homePage {
+   position: relative;
+}
+
+.uhgTitle {
+   position: absolute;
+   top: 9.2rem;
+   left: 27.5rem;
+   font-size: 4.6rem;
+   font-weight: bold;
+}
+
+.smallThe {
+   display: inline-block;
+   /* height: 100%; */
+   font-size: 2rem;
+   /* padding-bottom: 2rem; */
+   vertical-align: top;
+   padding-top: .8rem;
+}
+
+.titleLn1 {
+
+}
+
+.titleLn2 {
+   text-align: center;
+}
