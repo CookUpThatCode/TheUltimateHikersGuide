@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'corsheaders',
     'uhg',
+    'smuggler',
 ]
 
 GRAPHENE = {
@@ -93,14 +94,21 @@ WSGI_APPLICATION = 'a0_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'uhg',
+#         'USER': 'postgres',
+#         'PASSWORD': 'data88',
+#         'HOST': '10.0.0.232',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'uhg',
-        'USER': 'postgres',
-        'PASSWORD': 'data88',
-        'HOST': '10.0.0.234',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

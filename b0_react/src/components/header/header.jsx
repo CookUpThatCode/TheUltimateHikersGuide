@@ -22,7 +22,7 @@ const Header = (props) => {
          <div className="leftItem"><div className="homeBox"><Link to="/"><div className={home}>Home</div></Link></div></div>
          <div className="rightItems"><div className="itemBox"><div className={about}>About</div></div></div>
          <div className="rightItems"><div className="itemBox"><div className={contact}>Contact</div></div></div>
-         <div className="rightItems"><div className="loginRegBox"><div className={loginReg}>Login / Register</div></div></div>
+         <div className="rightItems"><div className="loginRegBox"><Link to="/auth"><div className={loginReg}>Login / Register</div></Link></div></div>
          <div className="rightItems"><div className="itemBox"><div className={profile}>Profile</div></div></div>
       </div>
    )
